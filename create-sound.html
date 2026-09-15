@@ -1,277 +1,408 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SST Maps</title>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SST Sound Creation</title>
     <style>
-        :root {
-            color-scheme: dark;
-            font-family: Inter, system-ui, sans-serif;
-        }
+      :root {
+        color-scheme: dark;
+        font-family: Inter, system-ui, sans-serif;
+      }
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            background: #fcfafa;
-            color: #faf6f6;
-            display: grid;
-            place-items: center;
-        }
+      body {
+        margin: 0;
+        min-height: 100vh;
 
-        main {
-            width: min(720px, calc(100% - 32px));
-            padding: 42px 0;
-        }
+        background: #fcfafa;
+        color: #faf6f6;
 
-        h1 {
-            margin: 0;
-            color: rgb(12, 12, 12);
-            font-size: clamp(2.3rem, 7vw, 4.5rem);
-            letter-spacing: -.06em;
-        }
+        overflow: hidden;
+      }
+      main {
+        width: min(720px, calc(100% - 32px));
+        padding: 42px 0;
+      }
 
-        .intro {
-            color: #aeb9c9;
-            margin: 12px 0 28px;
-            font-size: 1.1rem;
-        }
+      h1 {
+        margin: 0;
+        color: rgb(12, 12, 12);
+        font-size: clamp(2.3rem, 7vw, 4.5rem);
+        letter-spacing: -0.06em;
+      }
 
-        form,
-        .result {
-            background: #504f4f;
-            border: 1px solid #504f4f;
-            border-radius: 18px;
-            padding: 22px;
-            box-shadow: 0 18px 60px #504f4f;
-        }
+      .intro {
+        color: #aeb9c9;
+        margin: 12px 0 28px;
+        font-size: 1.1rem;
+      }
 
-        .top-frame {
-            position: absolute;
-            left: 0px;
-            right: 0px;
-            top: 0px;
+      form,
+      .result {
+        background: #504f4f;
+        border: 1px solid #504f4f;
+        border-radius: 18px;
+        padding: 22px;
+        box-shadow: 0 18px 60px #504f4f;
+      }
 
-            width: 100vw;
-            height: 125px;
-            border-radius: 0px;
+      .top-frame {
+        position: fixed;
+        left: 0;
+        top: 0;
 
-        }
+        width: 100vw;
+        height: 125px;
 
-        .side-frame {
-            position: absolute;
-            left: 0px;
-            top: 170px;
-            bottom: 0px;
+        border-radius: 0;
+        background: #504f4f;
 
-            width: 150px;
-            height: 100vh;
-            border-radius: 0px;
-        }
+        z-index: 200;
+      }
 
-        .Logo {
-            top: 0px;
-            left: 0px;
-            width: 150px;
-            height: 150px;
-        }
+      .side-frame {
+        position: fixed;
+        left: 0;
+        top: 125px;
 
-        .SST {
-            position: absolute;
-            left: 200px;
-            top: 40px;
-            color: white;
-            font-size: 48px;
+        width: 220px;
+        height: calc(100vh - 125px);
 
-        }
+        background: #504f4f;
 
-        .MBD {
-                        position: absolute;
-            left: 200px;
-            top: 80px;
-            color: white;
-            font-size: 20px;
-        }
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        margin: 0;
 
-        .white {
-            color: white;
-        }
+        box-shadow: none;
+        box-sizing: border-box;
 
-        .red {
-            color: red;
-        }
+        z-index: 100;
+      }
 
-        .Version {
-            position: absolute;
-            top: 0px;
-            right: 70px;
+      .Logo {
+        top: 0px;
+        left: 0px;
+        width: 150px;
+        height: 150px;
+      }
 
-            color: white;
-            z-index: 30;
-        }
+      .SST {
+        position: absolute;
+        left: 150px;
+        top: 20px;
+        color: white;
+        font-size: 48px;
+      }
 
-.main-dropdown {
-    position: absolute;
-    left: 10px;
-    top: 20%;
-    width: 150px;
-}
+      .MBD {
+        position: absolute;
+        left: 150px;
+        top: 50px;
+        color: white;
+        font-size: 20px;
+      }
 
-.dropdown-button {
-    width: 150px;
-    height: 40px;
-    font-size: 16px;
-    cursor: pointer;
-}
+      .white {
+        color: white;
+      }
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    top: 40px;
-    left: 0;
-    width: 150px;
-    background: #333;
-    z-index: 100;
-}
+      .red {
+        color: red;
+      }
 
-/* Open the first dropdown */
-.main-dropdown:hover .dropdown-content {
-    display: block;
-}
+      .Version {
+        position: absolute;
+        top: 0px;
+        right: 70px;
 
-.dropdown-item {
-    position: relative;
-    width: 150px;
-    padding: 10px;
-    box-sizing: border-box;
-    color: white;
-    cursor: pointer;
-}
+        color: white;
+        z-index: 30;
+      }
 
-.dropdown-item:hover {
-    background: #555;
-}
+      .main-dropdown {
+        position: absolute;
+        left: 15px;
+        top: 20%;
+        width: 220px;
+      }
 
-/* Second-level dropdown */
-.submenu {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 150px;
-    width: 180px;
-    background: #333;
-    z-index: 101;
-}
+      .dropdown-button {
+        width: 180px;
+        height: 40px;
+        font-size: 16px;
+      }
 
-/* Open the second dropdown */
-.dropdown-item:hover .submenu {
-    display: block;
-}
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        width: 220px;
+        background: #333;
+        z-index: 101;
+      }
 
-.submenu a {
-    display: block;
-    width: 180px;
-    padding: 10px;
-    box-sizing: border-box;
-    color: white;
-    text-decoration: none;
-}
+      .main-dropdown:hover .dropdown-content {
+        display: block;
+      }
 
-.submenu a:hover {
-    background: #555;
-}
+      .dropdown-item {
+        position: relative;
+        width: 220px;
+        padding: 10px;
+        color: white;
+        cursor: pointer;
+        box-sizing: border-box;
+      }
 
-.content-area {
-    position: absolute;
+      .dropdown-item:hover {
+        background: #555;
+      }
 
-    left: 167px;
-    top: 150px;
+      .submenu {
+        display: none;
+        position: absolute;
+        left: 220px;
+        top: 0;
+        width: 220px;
+        background: #333;
+        z-index: 102;
+      }
 
-    width: calc(100vw - 167px);
-    height: calc(100vh - 150px);
+      .dropdown-item:hover .submenu {
+        display: block;
+      }
 
-    background: #fcfafa;
-    color: black;
+      .submenu a,
+      .dropdown-content > a {
+        display: block;
+        width: 220px;
+        padding: 10px;
+        box-sizing: border-box;
+        color: white;
+        text-decoration: none;
+      }
 
-    box-sizing: border-box;
-    padding: 30px;
-}
+      .submenu a:hover,
+      .dropdown-content > a:hover {
+        background: #555;
+      }
+
+      .content-area {
+        position: fixed;
+
+        left: 220px;
+        top: 125px;
+
+        width: calc(100vw - 220px);
+        height: calc(100vh - 125px);
+
+        background: #fcfafa;
+        color: black;
+
+        box-sizing: border-box;
+        padding: 30px;
+
+        z-index: 1;
+
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      .content-area-frame {
+        position: fixed;
+        left: 220px;
+        top: 150px;
+        bottom: 0;
+        padding: 50px;
+
+        width: calc(100vw - 220px);
+        height: calc(100vh - 125px);
+
+        background: lightgray;
+        color: white;
+
+        box-sizing: border-box;
+        padding: 30px;
+
+        z-index: 1;
+
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      .content-area-inside {
+        position: fixed;
+        left: 220px;
+        top: 150px;
+        bottom: 0;
+        padding: 50px;
+
+        width: calc(100vw - 220px);
+        height: calc(100vh - 125px);
+
+        background: white;
+        color: white;
+
+        box-sizing: border-box;
+        padding: 30px;
+
+        z-index: 1;
+
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      .content-inside {
+        position: fixed;
+        left: 20%;
+        right: 10%;
+        top: 20%;
+        bottom: 0;
+        padding: 50px;
+
+        background: #1e1e1e;
+        color: white;
+
+        border: 1px solid #444;
+        border-radius: 10px;
+
+        padding: 15px;
+        box-sizing: border-box;
+
+        overflow-y: auto;
+
+        font-family: Consolas, monospace;
+        font-size: 14px;
+      }
+
+      .text-box {
+        width: 400px;
+        height: 40px;
+        padding: 10px;
+        font-size: 16px;
+        box-sizing: border-box;
+        background-color: white;
+        border: 2px solid #ccc;
+        border-radius: 20px;
+        outline: none;
+      }
+
+      .text-box:focus {
+        border-color: red;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .text-box-group {
+        width: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .text-box-group h3 {
+        color: white;
+        font-size: 30px;
+        margin: 0;
+      }
+
+      .spacing-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .spacing-content h3 {
+        color: white;
+        font-size: 30px;
+        margin: 10px 0 20px;
+      }
     </style>
-</head>
+  </head>
 
-
-<body>
+  <body>
     <main>
+      <!-- TOP FRAME -->
+      <div class="top-frame">
+        <img src="images/logo.PNG" alt="Logo" class="Logo" />
 
-        <!-- TOP FRAME -->
-        <form class="top-frame">
-            <img src="images/logo.PNG" alt="Logo" class="Logo">
+        <h1 class="SST">SST</h1>
 
-            <h1 class="SST">SST</h1>
+        <p class="MBD">Minecraft Bedrock Scripter</p>
 
-            <p class="MBD">Minecraft Bedrock Scripter</p>
+        <h2 class="Version" id="version-text"></h2>
+      </div>
 
-            <h2 class="Version" id="version-text"></h2>
-        </form>
+      <!-- SIDE FRAME -->
+      <div class="side-frame">
+        <div class="main-dropdown">
+          <button class="dropdown-button">Tools ▼</button>
 
+          <div class="dropdown-content">
+            <div class="dropdown-item">
+              Main Menu ▶
 
-        <!-- SIDE FRAME -->
-        <form class="side-frame">
-
-            <div class="main-dropdown">
-
-                <button class="dropdown-button">
-                    Tools ▼
-                </button>
-
-                <div class="dropdown-content">
-
-        <div class="dropdown-item">
-            Sound Scripter ▶
-
-            <div class="submenu">
-                <a href="#">Create Sound Script</a>
-                <a href="#">Add To Sound Script</a>
+              <div class="submenu">
+                <a href="index.html">Main Menu</a>
+                <a href="#">Info Menu</a>
+              </div>
             </div>
-        </div>
 
-        <div class="dropdown-item">
-            Texture Scripter ▶
+            <div class="dropdown-item">
+              Sound Scripter ▶
 
-            <div class="submenu">
+              <div class="submenu">
+                <a href="create-sound.html">Create Sound Script</a>
+                <a href="#">Add To Sound Script</a>
+                <a href="#">Intro to Sound Scripts</a>
+              </div>
+            </div>
+
+            <div class="dropdown-item">
+              Texture Scripter ▶
+
+              <div class="submenu">
                 <a href="#">Create Texture Script</a>
                 <a href="#">Add To Texture Script</a>
+                <a href="#">Intro to Texture Scripts</a>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
 
-                </div>
+      <!-- MAIN CONTENT -->
+      <div class="content-area" id="content-area">
+        <div class="content-area-frame">
+          <div class="content-inside">
+            <h2 style="color: white">Create Sound Addon</h2>
+            <div class="spacing-content">
+              <div class="text-box-group">
+                <h3>Manifest</h3>
+                <input class="text-box" type="text" placeholder="Pack Name" />
+              </div>
 
+              <div class="text-box-group">
+                <h3>Description</h3>
+                <input
+                  class="text-box"
+                  type="text"
+                  placeholder="Pack Description"
+                />
+              </div>
             </div>
-
-        </form>
-
-
-        <!-- MAIN CONTENT -->
-        <div class="content-area" id="content-area">
-
-            <h2>Welcome to SST Maps</h2>
-
-            <p>Select a tool from the menu.</p>
-
+          </div>
         </div>
-
+      </div>
     </main>
-
 
     <script src="config.js"></script>
 
     <script>
-        document.getElementById("version-text").textContent = web_version;
+      document.getElementById("version-text").textContent = web_version;
     </script>
-
-</body>
-
-
+  </body>
 </html>
