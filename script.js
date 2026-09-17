@@ -7,6 +7,19 @@ function loadSoundCreation() {
   document.getElementById("uuid2").value = uuid2;
 }
 
+function isOggFile(file) {
+  const hasOggExtension = /\.ogg$/i.test(file.name);
+  const hasOggMime = file.type === "audio/ogg" || file.type === "";
+  return hasOggExtension && hasOggMime;
+}
+
+async function isRealOggFile(file) {
+  const buffer = await file.slice(0, 4).arrayBuffer();
+  const bytes = new Uint8Array(buffer);
+  const signature = String.fromCharCode(...bytes);
+  return signature === "OggS";
+}
+
 let currentPackName = "";
 
 function createManifest() {
@@ -311,12 +324,6 @@ async function createAddonFilesMCAddon(
 
 let collectedSoundFiles = [];
 
-function isOggFile(file) {
-  const hasOggExtension = /\.ogg$/i.test(file.name);
-  const hasOggMime = file.type === "audio/ogg" || file.type === "";
-  return hasOggExtension && hasOggMime;
-}
-
 function setupSoundDropArea() {
   const dropArea = document.getElementById("sound-drop-area");
 
@@ -379,6 +386,44 @@ function setupSoundDropArea() {
       );
     }
   });
+}
+
+async function importSoundFiles() {
+  try {
+    const fileHandles = await window.showOpenFilePicker({
+      multiple: true,
+      types: [
+        {
+          description: "OGG Audio",
+          accept: { "audio/ogg": [".ogg"] },
+        },
+      ],
+      excludeAcceptAllOption: true,
+    });
+
+    for (const handle of fileHandles) {
+      const file = await handle.getFile();
+
+      const validSignature = await isRealOggFile(file);
+
+      if (!validSignature) {
+        alert(`Skipped ${file.name} — not a valid .ogg file.`);
+        continue;
+      }
+
+      collectedSoundFiles.push(file);
+      await createSoundJson(file.name);
+      await createSoundDefJson(file.name);
+    }
+  } catch (error) {
+    if (error.name === "AbortError") {
+      console.log("User cancelled the file picker.");
+      return;
+    }
+
+    console.error("IMPORT FAILED:", error);
+    alert(`Failed to import files:\n\n${error.name}\n${error.message}`);
+  }
 }
 
 // Create sounds.json

@@ -431,7 +431,9 @@
               <h2>Drop Sound Files Here</h2>
               <p>Drag and drop .ogg files anywhere in black box area.</p>
               <p>Minecraft Only supports .ogg formated audio</p>
-              <p style="color: red">(Make sure to use a audio formater)</p>
+              <p style="color: red">
+                (Make sure to use an audio formater like Audacity)
+              </p>
             </div>
             <div class="spacing-content">
               <!-- Manifest Creation -->
@@ -485,6 +487,7 @@
                   Copy Manifest
                 </button>
               </div>
+              <p style="color: red">(Make Sure to click "Create Manifest")</p>
               <h3>Created Manifest</h3>
               <div class="text-output">
                 <textarea
@@ -499,6 +502,13 @@
               <!-- Sound.json Creation -->
               <h1 style="color: white">Sound.Json</h1>
               <div class="button-container">
+                <button
+                  class="create-button"
+                  id="copy-button"
+                  onclick="importSoundFiles()"
+                >
+                  Import Audio
+                </button>
                 <button class="create-button" id="copy-button">
                   Copy sound.json
                 </button>
@@ -518,6 +528,13 @@
               <!-- Sound_Def.Json Creation -->
               <h1 style="color: white">Sound Definitions.Json</h1>
               <div class="button-container">
+                <button
+                  class="create-button"
+                  id="copy-button"
+                  onclick="importSoundFiles()"
+                >
+                  Import Audio
+                </button>
                 <button class="create-button" id="copy-button">
                   Copy sound.json
                 </button>
