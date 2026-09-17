@@ -1,1 +1,1 @@
-const web_version = "1.0.2";
+const web_version = "1.1.0";

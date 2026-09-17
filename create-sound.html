@@ -298,14 +298,21 @@
         font-size: 18px;
         font-weight: bold;
         cursor: pointer;
+        flex: 1;
       }
 
       .create-button:hover {
         background-color: #eeeeee;
+        border-color: red;
       }
 
       .create-button:active {
         transform: scale(0.97);
+      }
+
+      .button-container {
+        display: flex;
+        gap: 10px;
       }
 
       .text-output {
@@ -316,7 +323,9 @@
         overflow: hidden;
       }
 
-      #manifest-output {
+      #manifest-output,
+      #sound-json-output,
+      #sound-def-json-output {
         width: 100%;
         height: 100%;
         box-sizing: border-box;
@@ -337,10 +346,32 @@
 
         outline: none;
       }
+
+      .drop-message {
+        border: 2px dashed #888;
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        margin: 20px 0;
+        transition: 0.2s;
+      }
+
+      #sound-drop-area {
+        position: relative;
+        min-height: 1000px;
+      }
+
+      #sound-drop-area.drag-over {
+        outline: 3px dashed red;
+        outline-offset: -10px;
+      }
     </style>
   </head>
 
   <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="script.js"></script>
+    <script src="config.js"></script>
     <main>
       <!-- TOP FRAME -->
       <div class="top-frame">
@@ -394,9 +425,16 @@
       <!-- MAIN CONTENT -->
       <div class="content-area" id="content-area">
         <div class="content-area-frame">
-          <div class="content-inside">
-            <h2 style="color: white">Create Sound Addon</h2>
+          <div class="content-inside" id="sound-drop-area">
+            <div class="drop-message">
+              <h2 style="color: white">Create Sound Addon</h2>
+              <h2>Drop Sound Files Here</h2>
+              <p>Drag and drop .ogg files anywhere in black box area.</p>
+              <p>Minecraft Only supports .ogg formated audio</p>
+              <p style="color: red">(Make sure to use a audio formater)</p>
+            </div>
             <div class="spacing-content">
+              <!-- Manifest Creation -->
               <h1 style="color: white">Manifest</h1>
               <div class="text-box-group">
                 <h3>Pack Name</h3>
@@ -435,16 +473,97 @@
                   id="uuid2"
                 />
               </div>
-              <button
-                class="create-button"
-                id="create-button"
-                onclick="createManifest()"
-              >
-                Create Manifest
-              </button>
+              <div class="button-container">
+                <button
+                  class="create-button"
+                  id="manifest-button"
+                  onclick="createManifest()"
+                >
+                  Create Manifest
+                </button>
+                <button class="create-button" id="copy-button">
+                  Copy Manifest
+                </button>
+              </div>
               <h3>Created Manifest</h3>
               <div class="text-output">
-                <textarea id="manifest-output" readonly></textarea>
+                <textarea
+                  id="manifest-output"
+                  readonly
+                  placeholder="{}"
+                ></textarea>
+              </div>
+              <br />
+              <br />
+
+              <!-- Sound.json Creation -->
+              <h1 style="color: white">Sound.Json</h1>
+              <div class="button-container">
+                <button class="create-button" id="copy-button">
+                  Copy sound.json
+                </button>
+              </div>
+              <h3>Created sound.json</h3>
+              <p>Pull Sounds Into Zone</p>
+              <div class="text-output">
+                <textarea
+                  id="sound-json-output"
+                  readonly
+                  placeholder="{}"
+                ></textarea>
+              </div>
+              <br />
+              <br />
+
+              <!-- Sound_Def.Json Creation -->
+              <h1 style="color: white">Sound Definitions.Json</h1>
+              <div class="button-container">
+                <button class="create-button" id="copy-button">
+                  Copy sound.json
+                </button>
+              </div>
+              <h3>Created sound_def.json</h3>
+              <p>Pull Sounds Into Zone</p>
+              <div class="text-output">
+                <textarea
+                  id="sound-def-json-output"
+                  readonly
+                  placeholder="{}"
+                ></textarea>
+              </div>
+              <br />
+              <!-- Download -->
+              <div class="button-container">
+                <button
+                  class="create-button"
+                  id="downLoad-button"
+                  onclick="
+                    createAddonFiles(
+                      currentPackName,
+                      currentManifest,
+                      soundJson,
+                      soundDefJson,
+                      collectedSoundFiles,
+                    )
+                  "
+                >
+                  Create Addon
+                </button>
+                <button
+                  class="create-button"
+                  id="downLoad-button"
+                  onclick="
+                    createAddonFilesMCAddon(
+                      currentPackName,
+                      currentManifest,
+                      soundJson,
+                      soundDefJson,
+                      collectedSoundFiles,
+                    )
+                  "
+                >
+                  Download as mcaddon
+                </button>
               </div>
             </div>
           </div>
@@ -457,6 +576,7 @@
 
     <script>
       loadSoundCreation();
+      setupSoundDropArea();
       document.getElementById("version-text").textContent = web_version;
     </script>
   </body>
