@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Sound Info</title>
+    <link rel="stylesheet" href="main-menu-style.css" />
+  </head>
+  <style>
+    h1 {
+      color: white;
+      font-size: 100px;
+    }
+
+    h2 {
+      color: white;
+      font-size: 50px;
+    }
+    p {
+      color: white;
+      font-size: 30px;
+    }
+
+    .Version {
+      position: absolute;
+      top: 0px;
+      right: 70px;
+
+      color: white;
+      z-index: 30;
+    }
+  </style>
+  <body>
+    <main>
+      <!-- TOP FRAME -->
+      <div class="top-frame">
+        <img src="images/logo.PNG" alt="Logo" class="Logo" />
+
+        <h1 class="SST">SST</h1>
+
+        <p class="MBD">Minecraft Bedrock Scripter</p>
+
+        <h2 class="Version" id="version-text"></h2>
+      </div>
+
+      <!-- SIDE FRAME -->
+      <div class="side-frame">
+        <div class="main-dropdown">
+          <button class="dropdown-button">Tools ▼</button>
+
+          <div class="dropdown-content">
+            <div class="dropdown-item">
+              Main Menu ▶
+
+              <div class="submenu">
+                <a href="index.html">Main Menu</a>
+                <a href="#"
+                  >Info Menu <span style="color: red">(Not ready)</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="dropdown-item">
+              Sound Scripter ▶
+
+              <div class="submenu">
+                <a href="create-sound.html">Create Sound Script</a>
+                <a href="#"
+                  >Add To Sound Script <br />
+                  <span style="color: red">(Not ready)</span></a
+                >
+                <a href="create-sound-info.html">Intro to Sound Scripts</a>
+              </div>
+            </div>
+
+            <div class="dropdown-item">
+              Texture Scripter ▶
+
+              <div class="submenu">
+                <a href="#"
+                  >Create Texture Script <br />
+                  <span style="color: red">(Not ready)</span></a
+                >
+                <a href="#"
+                  >Add To Texture Script <br />
+                  <span style="color: red">(Not ready)</span></a
+                >
+                <a href="#"
+                  >Intro to Texture Scripts <br />
+                  <span style="color: red">(Not ready)</span></a
+                >
+              </div>
+            </div>
+            <a href="version-data.html" class="dropdown-item">Versions ▶</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN CONTENT -->
+      <div class="content-area" id="content-area">
+        <div class="content-area-frame">
+          <div class="content-inside" id="sound-drop-area">
+            <div class="spacing-content">
+              <h1>Create Sound Addon Info</h1>
+              <br />
+              <br />
+              <h2>Welcome</h2>
+              <p>
+                First of all I'd like to say thank you for Beta Testing it is a
+                big help, to help me improve my abbility and skill along with
+                the effectiveness of this tool.
+              </p>
+              <br />
+              <br />
+              <h2>Creating Addon</h2>
+              <h2>Manifest</h2>
+              <p>
+                Now we get to the fun part. The manifest is very simple for this
+                addon in particular all you need to do is put in the name of
+                your addon. Exp: "<span style="color: red"
+                  >Greatest Sound Addon</span
+                >". Then your discription
+                <span style="color: red; font-size: 20px"
+                  >(Discription not Required)</span
+                >. Your discription can be anything you want it does not matter
+                its just simply there to tell you a little bit about that Addon.
+                Then make sure you click create manifest before moving on to the
+                next part. As of right now you have to click create manifest for
+                the addon creation to work, it is a bug that will get fixed
+                later.
+              </p>
+              <br />
+              <br />
+              <h2>sounds.json/sound_definition.json</h2>
+              <p>
+                This part is probably the easiest part all you do is either pull
+                in your sound files into the black box or click "Import Audio"
+                then it does the rest. There is no limit on how many files you
+                can add. One thing to note though is if you try to pull a file
+                in that is not in .ogg format it will not work becuase that is
+                the only format minecraft can read.
+              </p>
+              <br />
+              <br />
+              <h2>Downloading</h2>
+              <p>
+                We have two download options. 1. "Create Sound" this option lets
+                you place the addon wherever you want it through your file
+                explorer. 2. "Download as mcaddon" this lets you download the
+                file as a zip and makes it so you can just click "open file" or
+                double click the file and it will open minecraft for you and
+                download the addon straight to minecraft. This is what I
+                recomend for newcomers.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="config.js"></script>
+
+    <script>
+      document.getElementById("version-text").textContent = web_version;
+    </script>
+  </body>
+</html>
