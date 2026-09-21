@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SST Create Texture</title>
-    <link rel="stylesheet" href="main-menu-style.css" />
+    <link rel="stylesheet" href="../css/main-menu-style.css" />
   </head>
   <style>
     #manifest-output {
@@ -40,13 +40,13 @@
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <script src="create-texture-script.js"></script>
-  <script src="config.js"></script>
+  <script src="../scripts/create-texture-script.js"></script>
+  <script type="module" src="../scripts/version-set-up.js"></script>
   <body>
     <main>
       <!-- TOP FRAME -->
       <div class="top-frame">
-        <img src="images/logo.PNG" alt="Logo" class="Logo" />
+        <img src="../images/logo.PNG" alt="Logo" class="Logo" />
 
         <h1 class="SST">SST</h1>
 
@@ -65,7 +65,7 @@
               Main Menu ▶
 
               <div class="submenu">
-                <a href="index.html">Main Menu</a>
+                <a href="../html/index.html">Main Menu</a>
                 <a href="#"
                   >Info Menu <span style="color: red">(Not ready)</span>
                 </a>
@@ -76,12 +76,14 @@
               Sound Scripter ▶
 
               <div class="submenu">
-                <a href="create-sound.html">Create Sound Script</a>
+                <a href="../html/create-sound.html">Create Sound Script</a>
                 <a href="#"
                   >Add To Sound Script <br />
                   <span style="color: red">(Not ready)</span></a
                 >
-                <a href="create-sound-info.html">Intro to Sound Scripts</a>
+                <a href="../html/create-sound-info.html"
+                  >Intro to Sound Scripts</a
+                >
               </div>
             </div>
 
@@ -103,7 +105,21 @@
                 >
               </div>
             </div>
-            <a href="version-data.html" class="dropdown-item">Versions ▶</a>
+            <div class="dropdown-item">
+              Create Manifest ▶
+
+              <div class="submenu">
+                <a href="../html/rp-manifest.html"
+                  >Create Resource Pack Manifest <br />
+                </a>
+                <a href="../html/bp-manifest.html"
+                  >Create Behavior Pack Manifest <br
+                /></a>
+              </div>
+            </div>
+            <a href="../html/version-data.html" class="dropdown-item"
+              >Versions ▶</a
+            >
           </div>
         </div>
       </div>

@@ -4,12 +4,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SST Sound Creation</title>
-    <link rel="stylesheet" href="main-menu-style.css" />
+    <title>SST BP Manifest</title>
+    <link rel="stylesheet" href="../css/main-menu-style.css" />
     <style>
-      #manifest-output,
-      #sound-json-output,
-      #sound-def-json-output {
+      #manifest-output {
         width: 100%;
         height: 100%;
         box-sizing: border-box;
@@ -30,27 +28,16 @@
 
         outline: none;
       }
-
-      #sound-drop-area {
-        position: relative;
-        min-height: 1000px;
-      }
-
-      #sound-drop-area.drag-over {
-        outline: 3px dashed red;
-        outline-offset: -10px;
-      }
     </style>
   </head>
 
   <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="create-sound-script.js"></script>
-    <script src="config.js"></script>
+    <script type="module" src="../scripts/bp-manifest-script.js"></script>
     <main>
       <!-- TOP FRAME -->
       <div class="top-frame">
-        <img src="images/logo.PNG" alt="Logo" class="Logo" />
+        <img src="../images/logo.PNG" alt="Logo" class="Logo" />
 
         <h1 class="SST">SST</h1>
 
@@ -69,7 +56,7 @@
               Main Menu ▶
 
               <div class="submenu">
-                <a href="index.html">Main Menu</a>
+                <a href="../html/index.html">Main Menu</a>
                 <a href="#"
                   >Info Menu <span style="color: red">(Not ready)</span>
                 </a>
@@ -80,12 +67,14 @@
               Sound Scripter ▶
 
               <div class="submenu">
-                <a href="create-sound.html">Create Sound Script</a>
+                <a href="../html/create-sound.html">Create Sound Script</a>
                 <a href="#"
                   >Add To Sound Script <br />
                   <span style="color: red">(Not ready)</span></a
                 >
-                <a href="create-sound-info.html">Intro to Sound Scripts</a>
+                <a href="../html/create-sound-info.html"
+                  >Intro to Sound Scripts</a
+                >
               </div>
             </div>
 
@@ -107,7 +96,21 @@
                 >
               </div>
             </div>
-            <a href="version-data.html" class="dropdown-item">Versions ▶</a>
+            <div class="dropdown-item">
+              Create Manifest ▶
+
+              <div class="submenu">
+                <a href="../html/rp-manifest.html"
+                  >Create Resource Pack Manifest <br />
+                </a>
+                <a href="../html/bp-manifest.html"
+                  >Create Behavior Pack Manifest <br
+                /></a>
+              </div>
+            </div>
+            <a href="../html/version-data.html" class="dropdown-item"
+              >Versions ▶</a
+            >
           </div>
         </div>
       </div>
@@ -116,16 +119,8 @@
       <div class="content-area" id="content-area">
         <div class="content-area-frame">
           <div class="content-inside" id="sound-drop-area">
-            <div class="drop-message">
-              <h2 style="color: white">Create Sound Addon</h2>
-              <h2>Drop Sound Files Here</h2>
-              <p>Drag and drop .ogg files anywhere in black box area.</p>
-              <p>Minecraft Only supports .ogg formated audio</p>
-              <p style="color: red">
-                (Make sure to use an audio formater like Audacity)
-              </p>
-            </div>
             <div class="spacing-content">
+              <h1 style="color: white">Behavior Pack Manifest</h1>
               <!-- Manifest Creation -->
               <h1 style="color: white">Manifest</h1>
               <div class="text-box-group">
@@ -165,12 +160,17 @@
                   id="uuid2"
                 />
               </div>
+              <div class="text-box-group">
+                <h3>UUID 3</h3>
+                <input
+                  class="text-box"
+                  type="text"
+                  placeholder="UUID 3: Type Here..."
+                  id="uuid3"
+                />
+              </div>
               <div class="button-container">
-                <button
-                  class="create-button"
-                  id="manifest-button"
-                  onclick="createManifest()"
-                >
+                <button class="create-button" id="manifest-button">
                   Create Manifest
                 </button>
                 <button class="create-button" id="copy-button">
@@ -186,105 +186,10 @@
                   placeholder="{}"
                 ></textarea>
               </div>
-              <br />
-              <br />
-
-              <!-- Sound.json Creation -->
-              <h1 style="color: white">Sound.Json</h1>
-              <div class="button-container">
-                <button
-                  class="create-button"
-                  id="copy-button"
-                  onclick="importSoundFiles()"
-                >
-                  Import Audio
-                </button>
-                <button class="create-button" id="copy-button">
-                  Copy sound.json
-                </button>
-              </div>
-              <h3>Created sound.json</h3>
-              <p>Pull Sounds Into Zone</p>
-              <div class="text-output">
-                <textarea
-                  id="sound-json-output"
-                  readonly
-                  placeholder="{}"
-                ></textarea>
-              </div>
-              <br />
-              <br />
-
-              <!-- Sound_Def.Json Creation -->
-              <h1 style="color: white">Sound Definitions.Json</h1>
-              <div class="button-container">
-                <button
-                  class="create-button"
-                  id="copy-button"
-                  onclick="importSoundFiles()"
-                >
-                  Import Audio
-                </button>
-                <button class="create-button" id="copy-button">
-                  Copy sound.json
-                </button>
-              </div>
-              <h3>Created sound_def.json</h3>
-              <p>Pull Sounds Into Zone</p>
-              <div class="text-output">
-                <textarea
-                  id="sound-def-json-output"
-                  readonly
-                  placeholder="{}"
-                ></textarea>
-              </div>
-              <br />
-              <!-- Download -->
-              <div class="button-container">
-                <button
-                  class="create-button"
-                  id="downLoad-button"
-                  onclick="
-                    createAddonFiles(
-                      currentPackName,
-                      currentManifest,
-                      soundJson,
-                      soundDefJson,
-                      collectedSoundFiles,
-                    )
-                  "
-                >
-                  Create Addon
-                </button>
-                <button
-                  class="create-button"
-                  id="downLoad-button"
-                  onclick="
-                    createAddonFilesMCAddon(
-                      currentPackName,
-                      currentManifest,
-                      soundJson,
-                      soundDefJson,
-                      collectedSoundFiles,
-                    )
-                  "
-                >
-                  Download as mcaddon
-                </button>
-              </div>
             </div>
           </div>
         </div>
       </div>
     </main>
-
-    <script src="create-sound-script.js"></script>
-    <script src="config.js"></script>
-
-    <script>
-      loadSoundCreation();
-      setupSoundDropArea();
-      document.getElementById("version-text").textContent = web_version;
-    </script>
   </body>
 </html>
